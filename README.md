@@ -3,5 +3,5 @@ untuk kalian yang mau melakukan pengembangan projeck saya, tolong gunakan dengan
 
 yang berkontribusi projeck,pengembang,program,pendukung,doansi,dan lainnya  
 
-riki yuliana 
-wawan herdianto
+- riki yuliana 
+- wawan herdianto
