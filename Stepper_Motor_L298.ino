@@ -1,10 +1,10 @@
 #include <LCD_I2C.h>
 LCD_I2C lcd(0x27);
 
-#define potentiometer  A0  //10k Variable Resistor
-#define bt_F A1 // Clockwise Button
-#define bt_S A2 // Stop Button
-#define bt_B A3 // Anticlockwise Button
+#define potentiometer  A0  //10k potensio
+#define bt_F A1 
+#define bt_S A2 
+#define bt_B A3 
 
 #define in1 11 //Motor  L298 Pin in1 
 #define in2 10 //Motor  L298 Pin in2 
@@ -17,18 +17,18 @@ int Speed;
 int Step;
 int Mode=0;
 
-void setup() { // put your setup code here, to run once
+void setup() { 
   
-pinMode(potentiometer, INPUT); // declare potentiometer as input 
+pinMode(potentiometer, INPUT); 
 
-pinMode(bt_F, INPUT_PULLUP); // declare bt_F as input
-pinMode(bt_S, INPUT_PULLUP); // declare bt_S as input
-pinMode(bt_B, INPUT_PULLUP); // declare bt_B as input
+pinMode(bt_F, INPUT_PULLUP); 
+pinMode(bt_S, INPUT_PULLUP); 
+pinMode(bt_B, INPUT_PULLUP); 
 
-pinMode(in1, OUTPUT); // declare as output for L298 Pin in1 
-pinMode(in2, OUTPUT); // declare as output for L298 Pin in2 
-pinMode(in3, OUTPUT); // declare as output for L298 Pin in3   
-pinMode(in4, OUTPUT); // declare as output for L298 Pin in4 
+pinMode(in1, OUTPUT); 
+pinMode(in2, OUTPUT); 
+pinMode(in3, OUTPUT); 
+pinMode(in4, OUTPUT); 
   
 lcd.begin(); 
 lcd.backlight(); 
@@ -36,13 +36,13 @@ lcd.setCursor(0,0);
 lcd.print("RIKI ADVERTISING");
 lcd.setCursor(0,1);
 lcd.print(" MESIN CONVEYOR ");
-delay(2000); // Waiting for a while
+delay(2000); 
 lcd.clear();
 }
 
 void loop() { 
 
-read_ADC = analogRead(potentiometer); // read analogue to digital value 0 to 1023 
+read_ADC = analogRead(potentiometer); 
 Speed = map(read_ADC, 0, 1023, 100, 0);
 Speed_LCD = map(read_ADC, 0, 1023, 0, 100); 
 
@@ -52,9 +52,9 @@ lcd.print("   SPEED: ");
 lcd.print(Speed_LCD); 
 lcd.print("%  ");
 
-if(digitalRead (bt_F) == 0){Mode = 1;} //For Clockwise
-if(digitalRead (bt_S) == 0){Mode = 0;} //For Stop
-if(digitalRead (bt_B) == 0){Mode = 2;} //For Anticlockwise
+if(digitalRead (bt_F) == 0){Mode = 1;} 
+if(digitalRead (bt_S) == 0){Mode = 0;} 
+if(digitalRead (bt_B) == 0){Mode = 2;} 
 
 lcd.setCursor(0,1);
 
@@ -66,13 +66,13 @@ if(Speed_LCD>0){
 if(Mode==1){  
 Step = Step+1;
 if(Step>3){Step=0;}    
-call_Step(Step);// Stepper motor rotates CW (Clockwise)
+call_Step(Step);
 }
 
 if(Mode==2){
 Step = Step-1;
 if(Step<0){Step=3;}  
-call_Step(Step);// Stepper motor rotates CCW (Anticlockwise)
+call_Step(Step);
 }
 
 delay(Speed);
@@ -81,34 +81,29 @@ delay(Speed);
 
 }
 
-//The sequence of control signals for 4 control wires is as follows:
-//Step C0 C1 C2 C3
-//  1  1  0  1  0
-//  2  0  1  1  0
-//  3  0  1  0  1
-//  4  1  0  0  1
+
 
 void call_Step(int i){
     switch (i) {
-      case 0:  // 1010
+      case 0: 
         digitalWrite(in1, HIGH);
         digitalWrite(in2, LOW);
         digitalWrite(in3, HIGH);
         digitalWrite(in4, LOW);
       break;
-      case 1:  // 0110
+      case 1:  
         digitalWrite(in1, LOW);
         digitalWrite(in2, HIGH);
         digitalWrite(in3, HIGH);
         digitalWrite(in4, LOW);
       break;
-      case 2:  //0101
+      case 2:  
         digitalWrite(in1, LOW);
         digitalWrite(in2, HIGH);
         digitalWrite(in3, LOW);
         digitalWrite(in4, HIGH);
       break;
-      case 3:  //1001
+      case 3:  
         digitalWrite(in1, HIGH);
         digitalWrite(in2, LOW);
         digitalWrite(in3, LOW);
